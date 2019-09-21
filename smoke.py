@@ -1,6 +1,7 @@
 import unittest
 
 from g2048 import Board
+import utils
 
 
 class SmokeTest(unittest.TestCase):
@@ -29,6 +30,9 @@ class SmokeTest(unittest.TestCase):
         self.assertEqual(b.height, h)
 
         self.assertEqual(b.cells, cells_after)
+
+        s = utils.to_html(b)
+        self.assertEqual(s, "<html><body><table><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>4</td></tr><tr><td>0</td><td>4</td><td>2</td><td>4</td></tr><tr><td>4</td><td>4</td><td>4</td><td>8</td></tr></table></body></html>")
 
 
 if __name__ == '__main__':
