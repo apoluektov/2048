@@ -34,16 +34,16 @@ class SmokeTest(unittest.TestCase):
 
         b.down()
 
-        self.assertEqual(b.width, w)
-        self.assertEqual(b.height, h)
+        self.assertEqual(4, b.width)
+        self.assertEqual(4, b.height)
 
-        self.assertEqual(b.cells, cells_turn1_down)
+        self.assertEqual(cells_turn1_down, b.cells)
 
         b.up()
-        self.assertEqual(b.width, w)
-        self.assertEqual(b.height, h)
+        self.assertEqual(4, b.width)
+        self.assertEqual(4, b.height)
 
-        self.assertEqual(b.cells, cells_turn2_up)
+        self.assertEqual(cells_turn2_up, b.cells)
 
     def test_html(self):
         cells = [
@@ -56,7 +56,13 @@ class SmokeTest(unittest.TestCase):
         b = Board(cells, 4, 4)
 
         s = utils.to_html(b)
-        self.assertEqual(s, "<html><body><table><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>4</td></tr><tr><td>0</td><td>4</td><td>2</td><td>4</td></tr><tr><td>4</td><td>4</td><td>4</td><td>8</td></tr></table></body></html>")
+        self.assertEqual("<html><body><table>"
+                         "<tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>"
+                         "<tr><td>0</td><td>0</td><td>0</td><td>4</td></tr>"
+                         "<tr><td>0</td><td>4</td><td>2</td><td>4</td></tr>"
+                         "<tr><td>4</td><td>4</td><td>4</td><td>8</td></tr>"
+                         "</table></body></html>",
+                         s)
 
 
 if __name__ == '__main__':
