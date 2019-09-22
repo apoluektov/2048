@@ -32,6 +32,26 @@ class Board:
 
                     y += 1
 
+    def up(self):
+        merged = [False for _ in self.cells]
+        for row in range(0, self.height):
+            for column in range(self.width):
+                y = row
+                while y > 0:
+                    this = self.get(column, y)
+                    above = self.get(column, y - 1)
+                    if above == 0:
+                        self.set(column, y - 1, this)
+                        self.set(column, y, 0)
+                    elif above == this and not merged[(y - 1) * self.width + column]:
+                        self.set(column, y - 1, this * 2)
+                        self.set(column, y, 0)
+                        merged[(y - 1) * self.width + column] = True
+                        break
+
+                    y -= 1
+
+
     def set(self, x, y, n):
         self.cells[y * self.width + x] = n
 
