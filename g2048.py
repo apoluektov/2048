@@ -47,6 +47,40 @@ class Board:
                         merged[move_to_y * self.width + column] = True
                         break
 
+    def right(self):
+        merged = [False for _ in self.cells]
+        for column in range(self.width - 1, -1, -1):
+            for row in range(self.height):
+                for next_column in range(column, self.width - 1):
+                    move_to_x = next_column + 1
+                    this = self.get(next_column, row)
+                    move_to = self.get(move_to_x, row)
+                    if move_to == 0:
+                        self.set(move_to_x, row, this)
+                        self.set(next_column, row, 0)
+                    elif move_to == this and not merged[row * self.width + move_to_x]:
+                        self.set(move_to_x, row, this * 2)
+                        self.set(next_column, row, 0)
+                        merged[row * self.width + move_to_x] = True
+                        break
+
+    def left(self):
+        merged = [False for _ in self.cells]
+        for column in range(self.width):
+            for row in range(self.height):
+                for next_column in range(column, 0, -1):
+                    move_to_x = next_column - 1
+                    this = self.get(next_column, row)
+                    move_to = self.get(move_to_x, row)
+                    if move_to == 0:
+                        self.set(move_to_x, row, this)
+                        self.set(next_column, row, 0)
+                    elif move_to == this and not merged[row * self.width + move_to_x]:
+                        self.set(move_to_x, row, this * 2)
+                        self.set(next_column, row, 0)
+                        merged[row * self.width + move_to_x] = True
+                        break
+
     def set(self, x, y, n):
         self.cells[y * self.width + x] = n
 

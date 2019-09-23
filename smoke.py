@@ -6,9 +6,6 @@ import utils
 
 class SmokeTest(unittest.TestCase):
     def test(self):
-        w = 4
-        h = 4
-
         cells_init = [
             2, 2, 2, 2,
             0, 2, 2, 2,
@@ -30,20 +27,43 @@ class SmokeTest(unittest.TestCase):
             0, 0, 0, 0
         ]
 
-        b = Board(cells_init, w, h)
+        cells_turn1_right = [
+            0, 0, 4, 4,
+            0, 0, 2, 4,
+            0, 0, 4, 4,
+            0, 0, 4, 8
+        ]
+
+        cells_turn2_left = [
+            8, 0, 0, 0,
+            2, 4, 0, 0,
+            8, 0, 0, 0,
+            4, 8, 0, 0
+        ]
+
+        b = Board(cells_init, 4, 4)
 
         b.down()
-
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
-
         self.assertEqual(cells_turn1_down, b.cells)
 
         b.up()
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
-
         self.assertEqual(cells_turn2_up, b.cells)
+
+        b = Board(cells_init, 4, 4)
+
+        b.right()
+        self.assertEqual(4, b.width)
+        self.assertEqual(4, b.height)
+        self.assertEqual(cells_turn1_right, b.cells)
+
+        b.left()
+        self.assertEqual(4, b.width)
+        self.assertEqual(4, b.height)
+        self.assertEqual(cells_turn2_left, b.cells)
 
     def test_html(self):
         cells = [
