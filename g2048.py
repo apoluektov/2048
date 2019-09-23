@@ -17,40 +17,35 @@ class Board:
         merged = [False for _ in self.cells]
         for row in range(self.height - 2, -1, -1):
             for column in range(self.width):
-                y = row
-                while y < self.height - 1:
-                    this = self.get(column, y)
-                    below = self.get(column, y + 1)
-                    if below == 0:
-                        self.set(column, y + 1, this)
-                        self.set(column, y, 0)
-                    elif below == this and not merged[(y + 1) * self.width + column]:
-                        self.set(column, y + 1, this * 2)
-                        self.set(column, y, 0)
-                        merged[(y + 1) * self.width + column] = True
+                for next_row in range(row, self.height - 1):
+                    move_to_y = next_row + 1
+                    this = self.get(column, next_row)
+                    move_to = self.get(column, move_to_y)
+                    if move_to == 0:
+                        self.set(column, move_to_y, this)
+                        self.set(column, next_row, 0)
+                    elif move_to == this and not merged[move_to_y * self.width + column]:
+                        self.set(column, move_to_y, this * 2)
+                        self.set(column, next_row, 0)
+                        merged[move_to_y * self.width + column] = True
                         break
-
-                    y += 1
 
     def up(self):
         merged = [False for _ in self.cells]
         for row in range(0, self.height):
             for column in range(self.width):
-                y = row
-                while y > 0:
-                    this = self.get(column, y)
-                    above = self.get(column, y - 1)
-                    if above == 0:
-                        self.set(column, y - 1, this)
-                        self.set(column, y, 0)
-                    elif above == this and not merged[(y - 1) * self.width + column]:
-                        self.set(column, y - 1, this * 2)
-                        self.set(column, y, 0)
-                        merged[(y - 1) * self.width + column] = True
+                for next_row in range(row, 0, -1):
+                    move_to_y = next_row - 1
+                    this = self.get(column, next_row)
+                    move_to = self.get(column, move_to_y)
+                    if move_to == 0:
+                        self.set(column, move_to_y, this)
+                        self.set(column, next_row, 0)
+                    elif move_to == this and not merged[move_to_y * self.width + column]:
+                        self.set(column, move_to_y, this * 2)
+                        self.set(column, next_row, 0)
+                        merged[move_to_y * self.width + column] = True
                         break
-
-                    y -= 1
-
 
     def set(self, x, y, n):
         self.cells[y * self.width + x] = n
