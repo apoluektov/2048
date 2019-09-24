@@ -1,3 +1,6 @@
+from random import randint
+
+
 class Board:
     # first row is top row, first column is left column
     # cells[0] is top-left corner element, cells[w] is second row leftmost element
@@ -109,8 +112,77 @@ class Board:
         self.cells[y * self.width + x] = n
 
 
+def empty_board():
+    return Board([0 for _ in range(16)], 4, 4)
+
+
+def random_new_val():
+    # 90% 2, 10% 4
+    if randint(0, 9) == 0:
+        return 4
+    else:
+        return 2
+
+
+def random_new_cell(board):
+    # found all empty cells
+    # randomly chose one of them
+    empties = []
+    for i, c in enumerate(board.cells):
+        if c == 0:
+            empties.append(i)
+    x = randint(0, len(empties) - 1)
+    return empties[x]
+
+
+def run_game(actor):
+    b = empty_board()
+    b.cells[random_new_cell(b)] = random_new_val()
+    b.cells[random_new_cell(b)] = random_new_val()
+    print_board(b)
+    while True:
+        if not actor.next_move(b):
+            # illegal move tried
+            raise ValueError
+        try:
+            b.cells[random_new_cell(b)] = random_new_val()
+            print_board(b)
+        except ValueError:
+            # game over
+            break
+
+
+def print_board(b):
+    for y in range(b.height):
+        for x in range(b.width):
+            print('{:>5}'.format(b.get(x, y)), end='')
+        print()
+
+
+class HumanActor:
+    def next_move(self, board):
+        while True:
+            s = input('your move: ')
+            if s not in 'udlr':
+                continue
+            if s == 'u':
+                if not board.up():
+                    continue
+            if s == 'd':
+                if not board.down():
+                    continue
+            if s == 'l':
+                if not board.left():
+                    continue
+            if s == 'r':
+                if not board.right():
+                    continue
+            return True
+
+
+
 def main():
-    print("Hello, 2048!")
+   run_game(HumanActor())
 
 
 if __name__ == '__main__':
