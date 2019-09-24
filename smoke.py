@@ -43,27 +43,40 @@ class SmokeTest(unittest.TestCase):
 
         b = Board(cells_init, 4, 4)
 
-        b.down()
+        moved = b.down()
+        self.assertEqual(True, moved)
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
         self.assertEqual(cells_turn1_down, b.cells)
 
-        b.up()
+        moved = b.up()
+        self.assertEqual(True, moved)
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
         self.assertEqual(cells_turn2_up, b.cells)
 
         b = Board(cells_init, 4, 4)
 
-        b.right()
+        moved = b.right()
+        self.assertEqual(True, moved)
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
         self.assertEqual(cells_turn1_right, b.cells)
 
-        b.left()
+        moved = b.left()
+        self.assertEqual(True, moved)
         self.assertEqual(4, b.width)
         self.assertEqual(4, b.height)
         self.assertEqual(cells_turn2_left, b.cells)
+
+        # another move to left changes nothing and so is illegal
+        moved = b.left()
+        self.assertEqual(False, moved)
+        self.assertEqual(4, b.width)
+        self.assertEqual(4, b.height)
+        self.assertEqual(cells_turn2_left, b.cells)
+
+        # TODO: cover other methods for legality
 
     def test_html(self):
         cells = [
