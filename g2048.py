@@ -111,6 +111,22 @@ class Board:
     def set(self, x, y, n):
         self.cells[y * self.width + x] = n
 
+    def is_game_over(self):
+        for x in range(self.width):
+            for y in range(self.height):
+                n = self.get(x, y)
+                if n == 0:
+                    return False
+                if x > 0 and self.get(x - 1, y) == n:
+                    return False
+                if x < self.width - 1 and self.get(x + 1, y) == n:
+                    return False
+                if y > 0 and self.get(x, y - 1) == n:
+                    return False
+                if y < self.height - 1 and self.get(x, y + 1) == n:
+                    return False
+        return True
+
 
 def empty_board():
     return Board([0 for _ in range(16)], 4, 4)
@@ -140,16 +156,13 @@ def run_game(actor):
     b.cells[random_new_cell(b)] = random_new_val()
     b.cells[random_new_cell(b)] = random_new_val()
     print_board(b)
-    while True:
+    while not b.is_game_over():
         if not actor.next_move(b):
             # illegal move tried
             raise ValueError
-        try:
-            b.cells[random_new_cell(b)] = random_new_val()
-            print_board(b)
-        except ValueError:
-            # game over
-            break
+        b.cells[random_new_cell(b)] = random_new_val()
+        print_board(b)
+    return max(b.cells)
 
 
 def print_board(b):
