@@ -1,3 +1,4 @@
+from collections import defaultdict
 from random import randint
 
 
@@ -155,13 +156,13 @@ def run_game(actor):
     b = empty_board()
     b.cells[random_new_cell(b)] = random_new_val()
     b.cells[random_new_cell(b)] = random_new_val()
-    print_board(b)
+    #print_board(b)
     while not b.is_game_over():
         if not actor.next_move(b):
             # illegal move tried
             raise ValueError
         b.cells[random_new_cell(b)] = random_new_val()
-        print_board(b)
+        #print_board(b)
     return max(b.cells)
 
 
@@ -170,6 +171,7 @@ def print_board(b):
         for x in range(b.width):
             print('{:>5}'.format(b.get(x, y)), end='')
         print()
+    print()
 
 
 class HumanActor:
@@ -217,7 +219,13 @@ class StupidActor:
 
 
 def main():
-   run_game(HumanActor())
+    d = defaultdict(int)
+    for i in range(10000):
+        max_ = run_game(StupidActor())
+        d[max_] += 1
+        if (i + 1) % 100 == 0:
+            print(i + 1)
+    print(sorted(d.items()))
 
 
 if __name__ == '__main__':
