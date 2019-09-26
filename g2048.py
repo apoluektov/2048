@@ -193,6 +193,28 @@ class HumanActor:
             return True
 
 
+class StupidActor:
+    # plays down, right, down, right, ...
+    # if not possible -- tries up and left in order
+
+    def __init__(self):
+        self.prev = None
+
+    def next_move(self, board):
+        if self.prev != 'down' and board.down():
+            self.prev = 'down'
+        elif self.prev != 'right' and board.right():
+            self.prev = 'right'
+        elif self.prev != 'left' and board.left():
+            self.prev = 'left'
+        elif self.prev != 'up' and board.up():
+            self.prev = 'up'
+        else:
+            # try whatever is possible
+            return board.down() or board.right() or board.left() or board.up()
+
+        return True
+
 
 def main():
    run_game(HumanActor())
