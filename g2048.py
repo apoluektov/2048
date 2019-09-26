@@ -176,7 +176,7 @@ class HumanActor:
     def next_move(self, board):
         while True:
             s = input('your move: ')
-            if s not in 'udlr':
+            if s == '' or s not in 'udlr':
                 continue
             if s == 'u':
                 if not board.up():
