@@ -213,7 +213,16 @@ class StupidActor:
             self.prev = 'up'
         else:
             # try whatever is possible
-            return board.down() or board.right() or board.left() or board.up()
+            if board.down():
+                self.prev = 'down'
+            elif board.right():
+                self.prev = 'right'
+            elif board.left():
+                self.prev = 'left'
+            elif board.up():
+                self.prev = 'up'
+            else:
+                assert False
 
         return True
 
