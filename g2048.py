@@ -20,7 +20,7 @@ class Board:
     def down(self):
         moved = False
         merged = [False for _ in self.cells]
-        for row in range(self.height - 2, -1, -1):
+        for row in range(self.height - 1, -1, -1):
             for column in range(self.width):
                 for next_row in range(row, self.height - 1):
                     move_to_y = next_row + 1
