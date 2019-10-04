@@ -158,9 +158,7 @@ def run_game(actor):
     b.cells[random_new_cell(b)] = random_new_val()
     #print_board(b)
     while not b.is_game_over():
-        if not actor.next_move(b):
-            # illegal move tried
-            raise ValueError
+        actor.next_move(b)
         b.cells[random_new_cell(b)] = random_new_val()
         #print_board(b)
     return max(b.cells)
@@ -192,7 +190,6 @@ class HumanActor:
             if s == 'r':
                 if not board.right():
                     continue
-            return True
 
 
 class StupidActor:
@@ -223,8 +220,6 @@ class StupidActor:
                 self.prev = 'up'
             else:
                 assert False
-
-        return True
 
 
 def main():
